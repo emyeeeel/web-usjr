@@ -1,10 +1,15 @@
 document.addEventListener("DOMContentLoaded", function() {
+    function addStudents(){
+        const addStudentButton = document.querySelector('.add-student-button');
+        addStudentButton.addEventListener('click', function() {
+            window.location.href = 'student-entry.php';
+        });
+    }
+
     function fetchStudents() {
         axios.get('get-list.php')
             .then(function(response) {
                 const students = response.data;
-
-                // Clear any previous data in the table
                 const tbody = document.querySelector('table tbody');
                 tbody.innerHTML = '';
 
@@ -32,9 +37,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     editButtons.forEach(button => {
                         button.addEventListener('click', function() {
                             const row = button.closest('tr');
-                            const studentId = row.cells[0].textContent;  // Correctly target the student ID from the first cell
+                            const studentId = row.cells[0].textContent;
 
-                            // Store student data in sessionStorage
                             sessionStorage.setItem('studentData', JSON.stringify({
                                 student_id: studentId,
                                 first_name: row.cells[2].textContent,
@@ -45,18 +49,16 @@ document.addEventListener("DOMContentLoaded", function() {
                                 year: row.cells[6].textContent
                             }));
 
-                            // Redirect to edit-entry.php
                             window.location.href = 'edit-entry.php';
-                            console.log("Redirecting to edit-entry.php");  // For debugging
                         });
                     });
 
-                    // Add event listener for Delete buttons (same structure as before)
+                    // Add event listener for Delete buttons
                     const deleteButtons = document.querySelectorAll('.delete-btn');
                     deleteButtons.forEach(button => {
                         button.addEventListener('click', function() {
                             const row = button.closest('tr');
-                            const studentId = row.cells[0].textContent;  // Correctly target the student ID
+                            const studentId = row.cells[0].textContent;
 
                             sessionStorage.setItem('studentData', JSON.stringify({
                                 student_id: studentId,
@@ -68,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
                                 year: row.cells[6].textContent
                             }));
 
-                            // Redirect to delete-entry.php
                             window.location.href = 'delete-entry.php';
                         });
                     });
@@ -86,9 +87,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     fetchStudents();
-
-    const addStudentButton = document.querySelector('.add-student-button');
-    if (addStudentButton) {
-        addStudentButton.addEventListener('click', redirectToStudentEntry);
-    }
+    addStudents();
 });

@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="process-dashboard.js"></script>
+    <script src="process-dashboard.js" defer></script>
     <style>
         body, html {
             width: 100%;
