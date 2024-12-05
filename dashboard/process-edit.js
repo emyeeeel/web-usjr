@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
+    loadColleges();  // Load colleges when the page loads
+    loadPrograms();  // Load programs when the page loads
+
+        // Let onCollegeChange listen to every change in the college dropdown
+        const collegeSelect = document.getElementById('college');
+        if (collegeSelect) {
+            collegeSelect.addEventListener('change', onCollegeChange);  // Attach the event listener
+        }
+
     // Retrieve student data from sessionStorage
     const studentData = JSON.parse(sessionStorage.getItem('studentData'));
     
@@ -9,43 +18,25 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('middle_name').value = studentData.middle_name;
         document.getElementById('last_name').value = studentData.last_name;
         document.getElementById('year').value = studentData.year;
-
-        // Handle 'college' dropdown
+        
+        // Pre-select the college and trigger onCollegeChange to load programs
         const collegeSelect = document.getElementById('college');
         if (collegeSelect) {
-            const collegeOption = document.createElement('option');
-            collegeOption.value = studentData.college;
-            collegeOption.textContent = studentData.college;  // This can be changed to a more descriptive name if needed
-            collegeSelect.appendChild(collegeOption);
-            collegeSelect.value = studentData.college;  // Set the default selected value
+            collegeSelect.value = studentData.college;  // Set the default selected college value
+            onCollegeChange({ target: collegeSelect });  // Trigger onCollegeChange programmatically
         }
 
-        // Handle 'program' dropdown
+        // Set the program dropdown to the student's selected program
         const programSelect = document.getElementById('program');
-        if (programSelect) {
-            const programOption = document.createElement('option');
-            programOption.value = studentData.program;
-            programOption.textContent = studentData.program;  // Similarly, you can change the text if needed
-            programSelect.appendChild(programOption);
-            programSelect.value = studentData.program;  // Set the default selected value
+        if (studentData.program) {
+            programSelect.value = studentData.program;
         }
-
-        console.log(studentData.college);  // Logging to check the value
-        console.log(studentData.program);  // Logging to check the value
-
-        loadColleges();  // Load colleges when the page loads
-        loadPrograms();  // Load programs when the page loads
-    
-        const collegeSelectValue = document.getElementById('college');
-        collegeSelectValue.addEventListener('change', onCollegeChange);  // Add event listener for college selection
 
     } else {
         // If no data in sessionStorage, redirect to the dashboard
         window.location.href = 'dashboard.php';
     }
 });
-
-
 
 let colleges = {};  // Global variable to store colleges data
 let programs = {};  // Global variable to store programs data

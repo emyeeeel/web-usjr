@@ -227,7 +227,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
             // Verify if all fields are filled
             let isValid = true;
             const fields = [studentId, firstName, middleName, lastName, college, program, year];
-            
+
             fields.forEach((field) => {
                 if (!field.trim()) {  // If any field is empty
                     isValid = false;
@@ -259,12 +259,11 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
 
             // If the form is valid, send the data to process.php via POST using axios
             if (isValid) {
-                axios.post('process.php', data)
+                axios.post('add-student.php', data)
                     .then(function(response) {
                         // Handle the response from the server
                         if (response.data.success) {
                             console.log("Form data submitted successfully!");
-                            document.getElementById("entry-form").reset();
                             setTimeout(function() {
                                 document.getElementById("loader").style.display = "none";
                                 // Redirect to the dashboard page
